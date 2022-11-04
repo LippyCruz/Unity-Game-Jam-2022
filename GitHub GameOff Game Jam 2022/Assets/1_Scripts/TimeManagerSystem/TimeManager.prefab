@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2967632090181863408}
   - component: {fileID: 2967632090181863415}
+  - component: {fileID: 5997591742516084066}
+  - component: {fileID: 5540958600182569034}
   m_Layer: 0
   m_Name: TimeManager
   m_TagString: Untagged
@@ -45,3 +47,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnTimeProgressedEvent: {fileID: 11400000, guid: fbc73bf933631c34bb519b2bc1891b6d, type: 2}
+--- !u!114 &5997591742516084066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2967632090181863409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf8507a40b3477488e227f75e745eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 8af1d4c7fb932ab4fb851cc11214cdf9, type: 2}
+  unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2967632090181863415}
+        m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
+        m_MethodName: HandleInitializeGameEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5540958600182569034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2967632090181863409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf8507a40b3477488e227f75e745eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: a60b8a3e986ec5a4ea29d5c025bca769, type: 2}
+  unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2967632090181863415}
+        m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
+        m_MethodName: HandlePlayerTurnEndEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
