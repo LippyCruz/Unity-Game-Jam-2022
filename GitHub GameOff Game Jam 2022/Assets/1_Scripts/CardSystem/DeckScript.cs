@@ -14,9 +14,9 @@ public class DeckScript : MonoBehaviour, IPointerDownHandler
     float timer;
 
     [SerializeField]
-    private int cardPool = 14; // Max cards that can be drawn
+    private int cardPool = 30; // Max cards that can be drawn
     [SerializeField]
-    private int cardsPerCol = 4;
+    private int cardsPerCol = 12;
     [SerializeField]
     private int cardsPerRow = 3;
 
@@ -25,6 +25,8 @@ public class DeckScript : MonoBehaviour, IPointerDownHandler
     public void Start()
     {
         cardsLeft = cardPool;
+
+        GiveCard(3);
 
     }
 
@@ -36,19 +38,46 @@ public class DeckScript : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         if (timer < cooldown) return;
-        if (manager.CardsOnDeck >= cardsPerRow * cardsPerCol) return;
+        if (cardsLeft <= 0) 
+        {
+            Debug.Log("Deck is empty, can't keep drawing cards");
+            return;
+        }
 
-        GameObject card = Instantiate(cardPrefab, manager.transform);
+        GiveCard();
 
-        PositionCard(card.transform, manager.CardsOnDeck - 1);
-
-        AssignCardData(card.transform);
-
-        cardsLeft -= 1;
         timer = 0;
     }
 
+    public void GiveCard(int amount = 1) 
+    {
+        
+        for (int i = 0; i < amount; i++)
+        { 
+            if (manager.CardsOnDeck >= cardsPerCol * cardsPerRow) return;
 
+            GameObject card = Instantiate(cardPrefab, manager.transform);
+
+            PositionCard(card.transform, manager.CardsOnDeck - 1);
+
+            AssignCardData(card.transform);
+            cardsLeft -= 1;
+        }
+
+    }
+
+    private void PositionCard(Transform card, int cardNumber) 
+    {
+
+        int yValue = -1 * (int)(cardNumber / cardsPerRow) * 60;
+        int xValue = 60 * (int)(cardNumber % cardsPerRow);
+        
+        Vector3 pos = deckStartPoint.GetComponent<RectTransform>().localPosition;
+
+        RectTransform rect = card.GetComponent<RectTransform>();
+
+        rect.anchoredPosition = new Vector3(pos.x + xValue, pos.y + yValue, 0);
+    }
 
     private void AssignCardData(Transform card) 
     {
@@ -59,20 +88,5 @@ public class DeckScript : MonoBehaviour, IPointerDownHandler
 
         cardScript.Card = manager.availableCards[randInt];
     }
-
-    private void PositionCard(Transform card, int cardNumber) 
-    {
-
-        int yValue = -1 * (int)(cardNumber / cardsPerRow) * 60;
-        int xValue = 60 * (int)(cardNumber % cardsPerRow);
-
-        Vector3 pos = deckStartPoint.GetComponent<RectTransform>().localPosition;
-
-        card.GetComponent<RectTransform>().localPosition = new Vector3(pos.x + xValue, pos.y + yValue, 0);
-
-    }
-
-
-
 
 }

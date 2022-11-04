@@ -12,6 +12,7 @@ public class CardScript : MonoBehaviour, IPointerDownHandler
     public ActionCardSO Card { get { return card; } set { card = value; } }
 
     Image image;
+    RectTransform rect;
 
 
     public void OnPointerDown(PointerEventData eventData)
@@ -28,6 +29,7 @@ public class CardScript : MonoBehaviour, IPointerDownHandler
     {
         image = GetComponent<Image>();
 
+        rect = GetComponent<RectTransform>();
         SetUpCard(card);
 
     }
