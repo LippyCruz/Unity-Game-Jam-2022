@@ -7,19 +7,11 @@ public class DeckManager : MonoBehaviour
 
     public ActionCardSO[] availableCards;
 
+    public int CardsOnDeck { get { return transform.childCount; } }
 
     void Awake()
     {
-        foreach(Transform card in transform) 
-        {
-            CardScript cardScript = card.GetComponent<CardScript>();
-            if (cardScript == null) continue;
-
-            int randInt = Random.Range(0, availableCards.Length);
-
-            cardScript.Card = availableCards[randInt];
-
-        }
+        
 
     }
 

@@ -16,7 +16,12 @@ public class CardScript : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        
+        // Play a "card is selected" animation or something
+
+        transform.TryGetComponent<Animator>(out Animator animator);
+
+        if (animator) animator.Play("Card_Selected");
+
     }
 
     void Start()

@@ -10,7 +10,6 @@ public class ActionCardSO : ScriptableObject
     public Sprite buildingSprite;
 
     public float price = 10;
-    public GameObject BuildingPrefab;
 
 
 }
