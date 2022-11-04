@@ -14,10 +14,6 @@ public class GridSet : MonoBehaviour // attach to a script and it will auto spaw
     private GameObject tile;
     void OnEnable()
     {
-        if(transform.childCount > 0){
-          clearTiles();
-        }
-        
         float spriteWidth = tile.GetComponent<SpriteRenderer>().size.x;
         float spriteHeight = tile.GetComponent<SpriteRenderer>().size.y;
         for (int i = 0; i < width; i++){
@@ -27,7 +23,7 @@ public class GridSet : MonoBehaviour // attach to a script and it will auto spaw
                         GameObject spawned = Instantiate(tile, new Vector3(transform.position.x+(i*1.5f*spriteWidth), transform.position.y-(f*2*spriteHeight),0f), Quaternion.identity, transform);
                       
                     } else {
-                        GameObject spawned = Instantiate(tile, new Vector3(transform.position.x+(i*1.5f*spriteWidth), transform.position.y-1f-(f*2*spriteHeight),0f), Quaternion.identity, transform);
+                        GameObject spawned = Instantiate(tile, new Vector3(transform.position.x+(i*1.5f*spriteWidth), transform.position.y+1f-(f*2*spriteHeight),0f), Quaternion.identity, transform);
                     }
                     
                 }
@@ -36,15 +32,4 @@ public class GridSet : MonoBehaviour // attach to a script and it will auto spaw
         }
     }
 
-    void OnDisable()
-    {
-       clearTiles();
-    }
-
-    private void clearTiles() // attempt to refresh and avoid double loading
-    {
-         for(int i = 0; i < transform.childCount ; i++ ){
-            DestroyImmediate(transform.GetChild(i).gameObject);
-        }
-    }
 }
