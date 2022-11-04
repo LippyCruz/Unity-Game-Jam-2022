@@ -10,52 +10,63 @@ public enum Season {
 public class PointInTime {
 
     // hardcoded definitions of how time should progress
+    private static readonly int _firstYear = 1;
     private static readonly Season[] _seasonInYearSequence = { Season.Summer, Season.Fall, Season.Winter, Season.Spring };
-    private static readonly int[] _monthInSeasonSequence = { 0, 1, 2 };
+    private static readonly int _firstRoundInSeason = 1;
+    private static readonly int _lastRoundInSeason = 3;
 
     PointInTime(int year, Season seasonInYear, int monthInSeason) {
         Year = year;
         SeasonInYear = seasonInYear;
-        MonthInSeason = monthInSeason;
+        RoundInSeason = monthInSeason;
     }
 
     public int Year { get; private set; }
     public Season SeasonInYear { get; private set; }
-    public int MonthInSeason { get; private set; }
+    public int RoundInSeason { get; private set; }
 
     public static PointInTime GenerateFirstPointInTime() {
-        return new PointInTime(0, _seasonInYearSequence[0], _monthInSeasonSequence[0]);
+        return new PointInTime(_firstYear, _seasonInYearSequence[0], _firstRoundInSeason);
     }
 
     public PointInTime GenerateNext() {
 
         int     newYear;
         Season  newSeason;
-        int     newMonth;
+        int     newRound;
 
-        if (IsLastMonthOfSeason() && IsLastSeasonOfYear()) { // if at end of year
+        if (IsLastRoundOfSeason() && IsLastSeasonOfYear()) { // if at end of year
             newYear     = Year + 1;
-            newSeason   = _seasonInYearSequence[0];
-            newMonth    = _monthInSeasonSequence[0];
-        } else if (IsLastMonthOfSeason()) { // if at end of season but not end of year
+            newSeason   = GetNextSeason(SeasonInYear);
+            newRound    = GetNextRound(RoundInSeason);
+        } else if (IsLastRoundOfSeason()) { // if at end of season but not end of year
             newYear     = Year;
-            newSeason   = _seasonInYearSequence[GetSeasonIndex()+1]; // todo increment
-            newMonth    = _monthInSeasonSequence[0];
+            newSeason   = GetNextSeason(SeasonInYear);
+            newRound    = GetNextRound(RoundInSeason);
         } else { // if just within a season
             newYear     = Year;
             newSeason   = SeasonInYear;
-            newMonth    = _monthInSeasonSequence[GetMonthIndex()+1]; // todo increment
+            newRound    = GetNextRound(RoundInSeason);
         }
 
-        return new PointInTime(newYear, newSeason, newMonth);
+        return new PointInTime(newYear, newSeason, newRound);
     }
 
-    private int GetSeasonIndex() => Array.IndexOf(_seasonInYearSequence, SeasonInYear);
-    private int GetMonthIndex() => Array.IndexOf(_monthInSeasonSequence, MonthInSeason);
+    public override string ToString() => "Year " + Year + ", " + SeasonInYear.ToString() + ", Month " + RoundInSeason;
+    public Season GetNextSeason() => GetNextSeason(SeasonInYear);
+    public int GetRoundsRemainingInSeason() => _lastRoundInSeason - RoundInSeason;
 
-    private bool IsLastMonthOfSeason() => _monthInSeasonSequence[_monthInSeasonSequence.Length-1] == MonthInSeason ? true : false;
-    private bool IsLastSeasonOfYear() => _seasonInYearSequence[_seasonInYearSequence.Length-1] == SeasonInYear ? true : false;
 
+    private static int GetSeasonIndex(Season s) => Array.IndexOf(_seasonInYearSequence, s);
+
+    private bool IsLastRoundOfSeason() => IsLastRoundOfSeason(RoundInSeason);
+    private bool IsLastSeasonOfYear() => IsLastSeasonOfYear(SeasonInYear);
+
+    private static bool IsLastSeasonOfYear(Season s) => _seasonInYearSequence[_seasonInYearSequence.Length-1] == s ? true : false;
+    private static bool IsLastRoundOfSeason(int r) => r == _lastRoundInSeason;
+
+    private static Season GetNextSeason(Season s) => IsLastSeasonOfYear(s) ? _seasonInYearSequence[0] : _seasonInYearSequence[GetSeasonIndex(s)+1];
+    private static int GetNextRound(int r) => IsLastRoundOfSeason(r) ? _firstRoundInSeason : r+1;
 
 
 }
