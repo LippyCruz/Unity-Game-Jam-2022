@@ -14,6 +14,9 @@ namespace UIManagement
     /// </summary>
     public class UIPanelQueue : MonoBehaviour
     {
+        [Header("Debug Flags")]
+        public bool Debug_ImmediatelyShowVariousReceptions;
+
         [Header("UI Notification Panel")]
         // The base GameObject of the notification panel
         [SerializeField] private GameObject notificationPanel;
@@ -40,9 +43,6 @@ namespace UIManagement
 
         // TODO: Use the correct class from Crostzard
         public class Card { }
-
-        // TODO: Use the correct event from Ben
-        [HideInInspector] public UnityEvent onNewTurn;
 
         /// <summary>
         /// The base class of all UI panels
@@ -80,14 +80,14 @@ namespace UIManagement
         private void Awake()
         {
             uiPanelQueue = new Queue<UIPanel>();
-            onNewTurn.AddListener(() => InitiateQueue());
+            TimeManager.OnStartPreTurn.AddListener(InitiateQueue);
 
-            // TEST, TODO: Remove
-            AddMoneyReception(5);
-            AddBuildingReception(BuildingType.ACRE);
-            AddItemReception(new Card());
-            AddMoneyReception(3);
-            onNewTurn.Invoke();
+            if (Debug_ImmediatelyShowVariousReceptions) {
+                AddMoneyReception(5);
+                AddBuildingReception(BuildingType.ACRE);
+                AddItemReception(new Card());
+                AddMoneyReception(3);
+            }
         }
 
         /// <summary>
@@ -156,6 +156,7 @@ namespace UIManagement
         {
             // UnlockActions(); TODO: Implement
             print("[UNLOCK PLAYER ACTIONS]");
+            TimeManager.Instance.FinishCurrentPhase();
         }
 
         /// <summary>
