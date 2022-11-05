@@ -7,6 +7,6 @@ public class TimeManagerTest_InitializeButton : MonoBehaviour {
     public SOEvent_Void EventToFire;
 
     public void HandleClick() {
-        EventToFire.Raise();
+        TimeManager.OnInitGame.Invoke();
     }
 }
