@@ -33,9 +33,9 @@ public class MapManager : EditorWindow
         {
             foreach (GameObject i in Selection.gameObjects)
             {
-                if (plain == null)
+                if (forest == null)
                 {
-                    Debug.Log("tile null for some reason");
+                    Debug.LogError("Forest tile asset null");
                 }
                 Debug.Log("clicked");
                 i.gameObject.GetComponent<Tile>().updateAppearance(forest);
@@ -45,11 +45,10 @@ public class MapManager : EditorWindow
         {
             foreach (GameObject i in Selection.gameObjects)
             {
-                if (plain == null)
+                if (sea == null)
                 {
-                    Debug.Log("tile null for some reason");
+                    Debug.LogError("Sea tile asset null");
                 }
-                Debug.Log("clicked");
                 i.gameObject.GetComponent<Tile>().updateAppearance(sea);
             }
         }
@@ -57,11 +56,10 @@ public class MapManager : EditorWindow
         {
             foreach (GameObject i in Selection.gameObjects)
             {
-                if (plain == null)
+                if (mountains == null)
                 {
-                    Debug.Log("tile null for some reason");
+                    Debug.LogError("Mountain tile asset null");
                 }
-                Debug.Log("clicked");
                 i.gameObject.GetComponent<Tile>().updateAppearance(mountains);
             }
         }
@@ -71,9 +69,8 @@ public class MapManager : EditorWindow
             {
                 if (plain == null)
                 {
-                    Debug.Log("tile null for some reason");
+                    Debug.LogError("Plain tile asset null");
                 }
-                Debug.Log("clicked");
                 i.gameObject.GetComponent<Tile>().updateAppearance(plain);
             }
         }
