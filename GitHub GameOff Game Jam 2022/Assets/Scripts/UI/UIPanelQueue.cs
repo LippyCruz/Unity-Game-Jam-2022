@@ -2,6 +2,7 @@ namespace UIManagement
 {
     using BuildingManagement;
     using System.Collections.Generic;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.UI;
@@ -13,6 +14,9 @@ namespace UIManagement
     /// </summary>
     public class UIPanelQueue : MonoBehaviour
     {
+        [Header("Debug Flags")]
+        public bool Debug_ImmediatelyShowVariousReceptions;
+
         [Header("UI Notification Panel")]
         // The base GameObject of the notification panel
         [SerializeField] private GameObject notificationPanel;
@@ -23,14 +27,22 @@ namespace UIManagement
         // The animator of the notification panel used for triggering the animations
         [SerializeField] private Animator notificationPanelAnimator;
 
+
+
+        [Header("UI Confirmation Panel")]
+        // The base GameObject of the confirmation panel
+        [SerializeField] private GameObject confirmationPanel;
+
+        // The base GameObject of the confirmation panel
+        [SerializeField] private TMP_Text confirmationTitleText;
+
+
+
         // In the beginning of each turn, all panels will be dequeued and displayed
         private Queue<UIPanel> uiPanelQueue;
 
         // TODO: Use the correct class from Crostzard
         public class Card { }
-
-        // TODO: Use the correct event from Ben
-        [HideInInspector] public UnityEvent onNewTurn;
 
         /// <summary>
         /// The base class of all UI panels
@@ -68,13 +80,14 @@ namespace UIManagement
         private void Awake()
         {
             uiPanelQueue = new Queue<UIPanel>();
-            onNewTurn.AddListener(() => InitiateQueue());
+            TimeManager.OnStartPreTurn.AddListener(InitiateQueue);
 
-            // TEST! TODO: Remove
-            AddMoneyReception(5);
-            AddBuildingReception(BuildingType.ACRE);
-            AddItemReception(new Card());
-            onNewTurn.Invoke();
+            if (Debug_ImmediatelyShowVariousReceptions) {
+                AddMoneyReception(5);
+                AddBuildingReception(BuildingType.ACRE);
+                AddItemReception(new Card());
+                AddMoneyReception(3);
+            }
         }
 
         /// <summary>
@@ -143,6 +156,7 @@ namespace UIManagement
         {
             // UnlockActions(); TODO: Implement
             print("[UNLOCK PLAYER ACTIONS]");
+            TimeManager.Instance.FinishCurrentPhase();
         }
 
         /// <summary>
@@ -164,11 +178,12 @@ namespace UIManagement
         }
 
         /// <summary>
-        /// Deactivates the GameObjects of all panels
+        /// Deactivates the GameObjects of the notification and confirmation panels
         /// </summary>
         private void DeactivateAllPanels()
         {
             notificationPanel.SetActive(false);
+            confirmationPanel.SetActive(false);
         }
 
         /// <summary>
@@ -183,6 +198,21 @@ namespace UIManagement
         }
 
         /// <summary>
+        /// Displays a panel showing a title, a card, and a confirmation button. This can be
+        /// used for scenarios like 'You have received this card' or 'An earthquake destroyed
+        /// this card', etc. Note that this only for confirming choices, not rejecting them
+        /// </summary>
+        /// <param name="confirmationTitle">What text should be displayed</param>
+        /// <param name="cardToDisplay">What card should be displayed</param>
+        private void DisplayCardConfirmation(string confirmationTitle, Card cardToDisplay)
+        {
+            // TODO: Set the card image
+
+            confirmationPanel.SetActive(true);
+            confirmationTitleText.text = confirmationTitle;
+        }
+
+        /// <summary>
         /// Depending on the current panel type, sets the UI text, icons and plays 
         /// the respective animation
         /// </summary>
@@ -194,19 +224,19 @@ namespace UIManagement
             {
                 // (!) TEST. TODO: Replace by animation
                 print($"[TEST]: Received {moneyPanel.ReceivedMoneyAmount}$!");
-                DisplayNotification(Color.red);
+                DisplayNotification(Color.yellow);
             }
             else if (currentPanel is BuildingReceptionUIPanel buildingPanel)
             {
                 // (!) TEST. TODO: Replace by animation
                 print($"[TEST]: Received {buildingPanel.ReceivedBuildingType.ToString()}!");
-                DisplayNotification(Color.blue);
+                DisplayNotification(Color.red);
             }
             else if (currentPanel is ItemReceptionUIPanel itemPanel)
             {
                 // (!) TEST. TODO: Replace by animation
-                print($"[TEST]: Received Card: {itemPanel}!");
-                DisplayNotification(Color.yellow);
+                print($"[TEST]: Received Card: {itemPanel.ReceivedCard}!");
+                DisplayCardConfirmation("New Card Received:", itemPanel.ReceivedCard);
             }
             else throw new System.NotImplementedException($"The UI panel '{currentPanel}' is not implemented");
         }

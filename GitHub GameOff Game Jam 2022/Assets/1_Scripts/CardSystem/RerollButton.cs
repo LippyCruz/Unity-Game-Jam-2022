@@ -26,7 +26,7 @@ public class RerollButton : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("clicked!");
+
         int randInt = Random.Range(0, deck.availableCards.Length);
 
         parentCard.SetUpCard(deck.availableCards[randInt]);

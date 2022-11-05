@@ -8,28 +8,38 @@ public class CardScript : MonoBehaviour, IPointerDownHandler
 {
 
     ActionCardSO card;
+    DeckManager deckManager;
+
+    Animator animator;
+    Image image;
 
     public ActionCardSO Card { get { return card; } set { card = value; } }
-
-    Image image;
+    public Animator Animator { get { return animator; } }
 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        
+        if(deckManager.Selected == this) 
+        {
+            deckManager.DeselectCard();
+            return;
+        }
+
+        deckManager.SelectCard(this);
+
     }
 
     void Start()
     {
-        image = GetComponent<Image>();
+        image = GetComponentInChildren<Image>();
+        deckManager = transform.parent.GetComponent<DeckManager>();
+        animator = GetComponentInChildren<Animator>();
 
         SetUpCard(card);
-
     }
 
     void Update()
     {
-        
     }
 
     public void SetUpCard(ActionCardSO newCard) 
@@ -47,6 +57,11 @@ public class CardScript : MonoBehaviour, IPointerDownHandler
         image.color = Color.white;
         image.sprite = card.cardSprite;
 
+    }
+
+    public void DeselectCard() 
+    { 
+        
     }
 
 

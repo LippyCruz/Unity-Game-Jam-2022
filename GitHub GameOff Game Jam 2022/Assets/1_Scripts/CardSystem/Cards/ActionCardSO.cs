@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-[CreateAssetMenu(fileName = "NewActionCard", menuName = "Cards/ActionCard")]
-public class ActionCardSO : ScriptableObject
+
+public abstract class ActionCardSO : ScriptableObject
 {
 
     public Sprite cardSprite;
     public Sprite buildingSprite;
 
     public float price = 10;
-    public GameObject BuildingPrefab;
 
-
+    public abstract void Action();
 }
