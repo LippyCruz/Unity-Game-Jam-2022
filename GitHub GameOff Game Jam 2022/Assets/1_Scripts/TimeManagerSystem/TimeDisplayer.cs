@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
 using UnityEngine.Assertions;
 
-public class TimeDisplayer : MonoBehaviour {
+public class TimeDisplayer : ComputerPhaseStep {
 
     public TextMeshProUGUI footerText;
 
@@ -12,12 +9,15 @@ public class TimeDisplayer : MonoBehaviour {
         Assert.IsNotNull(footerText);
     }
 
-    public void HandleTimeProgressedEvent(PointInTime time) {
-        Debug.Log($"TimeDisplayer received TimeProgressedEvent {time}");
-        UpdateUIElementsForNewTime(time);
+    private void UpdateUIElementsForNewTime(PointInTime time) {
+        footerText.text = $"Month {time.RoundInSeason} of {time.SeasonInYear}, year {time.Year}.\n{time.GetRoundsRemainingInSeason()} months until {time.GetNextSeason()}";
     }
 
-    private void UpdateUIElementsForNewTime(PointInTime time) {
-        footerText.text = $"{time.SeasonInYear}.\n{time.GetRoundsRemainingInSeason()} months until {time.GetNextSeason()}";
+    public override void DoProcessingForComputerPhaseDuringGameInit() {
+        UpdateUIElementsForNewTime(TimeManager.Instance.CurrentTime);
+    }
+
+    public override void DoProcessingForComputerPhase() {
+        UpdateUIElementsForNewTime(TimeManager.Instance.CurrentTime);
     }
 }
