@@ -10,9 +10,11 @@ namespace ActionManagement
         // The action buttons need to be set in the inspector
         [SerializeField] private ActionButton[] actionButtons;
 
-        // TODO: Use the OnGameStart event
-        void Start()
-        {
+        private void Awake() {
+            TimeManager.OnInitGame.AddListener(HandleOnInitGame);
+        }
+
+        public void HandleOnInitGame() {
             DisplayActionButtonStrengths();
         }
 
@@ -26,7 +28,7 @@ namespace ActionManagement
         /// </summary>
         private void DisplayActionButtonStrengths()
         {
-            int[] currentStrengths = ActionManager.instance.GetAllStrengths();
+            int[] currentStrengths = ActionManager.Instance.GetAllStrengths();
 
             for (int i = 0; i < actionButtons.Length; i++)
             {

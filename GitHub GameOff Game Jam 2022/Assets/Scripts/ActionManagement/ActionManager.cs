@@ -1,5 +1,6 @@
 namespace ActionManagement
 {
+    using System;
     using UnityEngine;
 
     /// <summary>
@@ -9,7 +10,15 @@ namespace ActionManagement
     public class ActionManager : MonoBehaviour
     {
         // The ActionManager's singleton
-        public static ActionManager instance;
+        private static ActionManager _instance = null;
+        public static ActionManager Instance {
+            get {
+                if (_instance == null)
+                    throw new Exception("ActionManager singleton was called without ActionManager being set up (check that ActionManager is in the scene)");
+                return _instance;
+            }
+            private set { _instance = value; }
+        }
 
         // The constants define how strong the actions can be (at the moment: in range(1,3) incl. incl.)
         public const int MIN_STRENGTH = 1, MAX_STRENGTH = 3;
@@ -23,16 +32,13 @@ namespace ActionManagement
         // Determines whether the player has already used one action this round or not
         private bool actionWasConsumed;
 
-        private void Awake() 
-        {
+        private void Awake() {
             // Sets up the singleton
-            if (instance == null) instance = this;
+            if (_instance == null) Instance = this;
             else throw new System.InvalidProgramException("Trying to instantiate the " +
                 "ActionManager singleton, but it already exists. Is there another script in the scene?");
 
-            // TODO: Use the OnGameStart event for this:
-            actionStrengths = new int[5];
-            ReplenishAllActions();
+            ReplenishAllActions(); // assumes we reload the scene every time we start a game
         }
 
         /// <summary>
@@ -52,6 +58,7 @@ namespace ActionManagement
         /// </summary>
         public void ReplenishAllActions() 
         {
+            actionStrengths = new int[5];
             for (int i = 0; i < actionStrengths.Length; i++)
             {
                 actionStrengths[i] = MAX_STRENGTH;

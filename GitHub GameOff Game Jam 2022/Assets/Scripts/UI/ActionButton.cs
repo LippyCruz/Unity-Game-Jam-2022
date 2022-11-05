@@ -25,8 +25,6 @@ namespace ActionManagement
                     "is at least one action button with an illegal amount of strength display images. " +
                     "To resolve this issue, make sure every action button has references to the " +
                     "same amount of strength images as the maximum strength defined in the ActionManager!");
-
-            Debug.LogWarning("[HELPER]: A developer helper test is used, which should be removed for builds.");
         }
 
         /// <summary>
