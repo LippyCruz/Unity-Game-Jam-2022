@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4c7ae88edd62c14aa30344855d61a44, type: 3}
-  m_Name: Cow card
+  m_Script: {fileID: 11500000, guid: ae1d97759fa49d64f8eba781db3592cb, type: 3}
+  m_Name: CowCard
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 9df3bd8a368897442a2a7de469157961, type: 3}
   buildingSprite: {fileID: 0}
   price: 10
-  BuildingPrefab: {fileID: 0}
