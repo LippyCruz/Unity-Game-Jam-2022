@@ -8,6 +8,7 @@ namespace ActionManagement
     /// in order to execute a certain action. It always displays its current
     /// strength in the form of one of three images
     /// </summary>
+    /// <author>Gino</author>
     public class ActionButton : MonoBehaviour
     {
         [SerializeField] private Image[] strengthDisplayImages;

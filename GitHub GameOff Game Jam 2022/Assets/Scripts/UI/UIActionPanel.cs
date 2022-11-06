@@ -1,20 +1,24 @@
 namespace ActionManagement
 {
+    using TimeManagement;
     using UnityEngine;
 
     /// <summary>
     /// Used to manage the display of the action panel elements
     /// </summary>
+    /// <author>Gino</author>
     public class UIActionPanel : MonoBehaviour
     {
         // The action buttons need to be set in the inspector
         [SerializeField] private ActionButton[] actionButtons;
 
-        private void Awake() {
+        private void Awake()
+        {
             TimeManager.OnInitGame.AddListener(HandleOnInitGame);
         }
 
-        public void HandleOnInitGame() {
+        public void HandleOnInitGame()
+        {
             DisplayActionButtonStrengths();
         }
 
