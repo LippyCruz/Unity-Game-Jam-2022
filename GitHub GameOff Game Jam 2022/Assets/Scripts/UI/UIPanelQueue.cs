@@ -1,6 +1,7 @@
 namespace UIManagement
 {
     using BuildingManagement;
+    using System;
     using System.Collections.Generic;
     using TimeManagement;
     using TMPro;
@@ -15,8 +16,19 @@ namespace UIManagement
     /// <author>Gino</author>
     public class UIPanelQueue : MonoBehaviour
     {
-        [Header("Debug Flags")]
-        public bool Debug_ImmediatelyShowVariousReceptions;
+        // The UIActionPanel's singleton
+        private static UIPanelQueue _instance = null;
+        public static UIPanelQueue Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    throw new Exception("UIPanelQueue singleton was called without " +
+                        "UIPanelQueue being set up (check that UIPanelQueue is in the scene)");
+                return _instance;
+            }
+            private set { _instance = value; }
+        }
 
 
 
@@ -27,8 +39,14 @@ namespace UIManagement
         // The background panel image of the notification panel
         [SerializeField] private Image notificationPanelImage;
 
+        // The icon image of the notification
+        [SerializeField] private Image notificationPanelIconImage;
+
         // The animator of the notification panel used for triggering the animations
         [SerializeField] private Animator notificationPanelAnimator;
+
+        // The text component of the notification panel displaying the actual notification string
+        [SerializeField] private TMP_Text notificationPanelText;
 
 
 
@@ -36,8 +54,14 @@ namespace UIManagement
         // The base GameObject of the confirmation panel
         [SerializeField] private GameObject confirmationPanel;
 
-        // The base GameObject of the confirmation panel
+        // The text component of the confirmation panel describing what the confirmation reason is
         [SerializeField] private TMP_Text confirmationTitleText;
+
+
+
+        [Header("UI Notification Icons")]
+        [SerializeField] private Sprite moneyNotificationIcon; 
+        [SerializeField] private Sprite buildingNotificationIcon; 
 
 
 
@@ -72,7 +96,7 @@ namespace UIManagement
         /// An entire panel displaying the received card together with a 
         /// confirmation button
         /// </summary>
-        private class ItemReceptionUIPanel : UIPanel
+        private class CardReceptionUIPanel : UIPanel
         {
             public Card ReceivedCard { get; set; }
         }
@@ -82,15 +106,13 @@ namespace UIManagement
         /// </summary>
         private void Awake()
         {
+            // Sets up the singleton
+            if (_instance == null) Instance = this;
+            else throw new InvalidProgramException("Trying to instantiate the " +
+                "UIPanelQueue singleton, but it already exists. Is there another script in the scene?");
+
             uiPanelQueue = new Queue<UIPanel>();
             TimeManager.OnStartPreTurn.AddListener(InitiateQueue);
-
-            if (Debug_ImmediatelyShowVariousReceptions) {
-                AddMoneyReception(5);
-                AddBuildingReception(BuildingType.ACRE);
-                AddItemReception(new Card());
-                AddMoneyReception(3);
-            }
         }
 
         /// <summary>
@@ -98,7 +120,7 @@ namespace UIManagement
         /// received a certain amount of money
         /// </summary>
         /// <param name="amountToDisplay">The amount of money received by the player</param>
-        public void AddMoneyReception(int amountToDisplay)
+        public void EnqueueMoneyReception(int amountToDisplay)
         {
             var panel = new MoneyReceptionUIPanel()
             {
@@ -113,7 +135,7 @@ namespace UIManagement
         /// received a new building that they can place in their farm
         /// </summary>
         /// <param name="buildingToDisplay">The building (acre, warehouse, etc.) received by the player</param>
-        public void AddBuildingReception(BuildingType buildingToDisplay)
+        public void EnqueueBuildingReception(BuildingType buildingToDisplay)
         {
             var panel = new BuildingReceptionUIPanel()
             {
@@ -129,9 +151,9 @@ namespace UIManagement
         /// (!) This needs to be confirmed by the player
         /// </summary>
         /// <param name="cardToDisplay">The card that should be displayed</param>
-        public void AddItemReception(Card cardToDisplay)
+        public void EnqueueCardReception(Card cardToDisplay)
         {
-            var panel = new ItemReceptionUIPanel()
+            var panel = new CardReceptionUIPanel()
             {
                 ReceivedCard = cardToDisplay
             };
@@ -193,10 +215,11 @@ namespace UIManagement
         /// Activates the panel GameObject, sets its panel colour and plays the animation
         /// </summary>
         /// <param name="panelColour">The background colour of the notification panel</param>
-        private void DisplayNotification(Color panelColour)
+        private void DisplayNotification(Color panelColour, Sprite notificationIcon)
         {
             notificationPanel.SetActive(true);
             notificationPanelImage.color = panelColour;
+            notificationPanelIconImage.sprite = notificationIcon;
             notificationPanelAnimator.Play("UINotificationPanelDisplay");
         }
 
@@ -225,23 +248,20 @@ namespace UIManagement
 
             if (currentPanel is MoneyReceptionUIPanel moneyPanel)
             {
-                // (!) TEST. TODO: Replace by animation
-                print($"[TEST]: Received {moneyPanel.ReceivedMoneyAmount}$!");
-                DisplayNotification(Color.yellow);
+                notificationPanelText.text = $"Received {moneyPanel.ReceivedMoneyAmount}$!";
+                DisplayNotification(Color.yellow, moneyNotificationIcon);
             }
             else if (currentPanel is BuildingReceptionUIPanel buildingPanel)
             {
-                // (!) TEST. TODO: Replace by animation
-                print($"[TEST]: Received {buildingPanel.ReceivedBuildingType.ToString()}!");
-                DisplayNotification(Color.red);
+                notificationPanelText.text = $"Received {buildingPanel.ReceivedBuildingType}!";
+                DisplayNotification(Color.red, buildingNotificationIcon);
             }
-            else if (currentPanel is ItemReceptionUIPanel itemPanel)
+            else if (currentPanel is CardReceptionUIPanel cardPanel)
             {
-                // (!) TEST. TODO: Replace by animation
-                print($"[TEST]: Received Card: {itemPanel.ReceivedCard}!");
-                DisplayCardConfirmation("New Card Received:", itemPanel.ReceivedCard);
+                notificationPanelText.text = $"Received Card: {cardPanel.ReceivedCard}!";
+                DisplayCardConfirmation("New Card Received:", cardPanel.ReceivedCard);
             }
-            else throw new System.NotImplementedException($"The UI panel '{currentPanel}' is not implemented");
+            else throw new NotImplementedException($"The UI panel '{currentPanel}' is not yet implemented!");
         }
 
         /// <summary>
