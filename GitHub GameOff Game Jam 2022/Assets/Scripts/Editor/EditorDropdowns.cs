@@ -25,35 +25,48 @@ public class EditorDropdowns : EditorWindow
 
     // UI
 
+    [MenuItem("Gamejam/UI/Directly Display All Test Notifications")]
+    static void DirectlyDisplayAllTestNotification()
+    {
+        IgnoreIdleEditorActions();
+
+        FeedbackPanelManager.Instance.EnqueueMoneyReception(5, true);
+        FeedbackPanelManager.Instance.EnqueueBuildingReception(BuildingManagement.BuildingType.ACRE, true);
+        FeedbackPanelManager.Instance.EnqueueCardReception(new FeedbackPanelManager.Card(), true);
+        FeedbackPanelManager.Instance.EnqueueMoneyReception(12, true);
+
+        FeedbackPanelManager.Instance.InitiateInstantDisplayQueue();
+    }
+
     [MenuItem("Gamejam/UI/Enqueue All Test Notifications")]
     static void EnqueueAllTestNotification()
     {
         IgnoreIdleEditorActions();
-        UIPanelQueue.Instance.EnqueueMoneyReception(5);
-        UIPanelQueue.Instance.EnqueueBuildingReception(BuildingManagement.BuildingType.ACRE);
-        UIPanelQueue.Instance.EnqueueCardReception(new UIPanelQueue.Card());
-        UIPanelQueue.Instance.EnqueueMoneyReception(12);
+        FeedbackPanelManager.Instance.EnqueueMoneyReception(5, false);
+        FeedbackPanelManager.Instance.EnqueueBuildingReception(BuildingManagement.BuildingType.ACRE, false);
+        FeedbackPanelManager.Instance.EnqueueCardReception(new FeedbackPanelManager.Card(), false);
+        FeedbackPanelManager.Instance.EnqueueMoneyReception(12, false);
     }
 
     [MenuItem("Gamejam/UI/Enqueue Test Money Notification")]
     static void EnqueueTestMoneyNotification()
     {
         IgnoreIdleEditorActions();
-        UIPanelQueue.Instance.EnqueueMoneyReception(5);
+        FeedbackPanelManager.Instance.EnqueueMoneyReception(5, false);
     }
 
     [MenuItem("Gamejam/UI/Enqueue Test Building Notification")]
     static void EnqueueTestBuildingNotification()
     {
         IgnoreIdleEditorActions();
-        UIPanelQueue.Instance.EnqueueBuildingReception(BuildingManagement.BuildingType.ACRE);
+        FeedbackPanelManager.Instance.EnqueueBuildingReception(BuildingManagement.BuildingType.ACRE, false);
     }
 
     [MenuItem("Gamejam/UI/Enqueue Test Card Notification")]
     static void EnqueueTestCardNotification()
     {
         IgnoreIdleEditorActions();
-        UIPanelQueue.Instance.EnqueueCardReception(new UIPanelQueue.Card()); // TODO: Replace by actual card class
+        FeedbackPanelManager.Instance.EnqueueCardReception(new FeedbackPanelManager.Card(), false); // TODO: Replace by actual card class
     }
 
     // Management
