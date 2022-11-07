@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
+    // CROSTZARD
 
-    public ActionCardSO[] availableCards;
+    //Summary: Handles all things related to your OWN deck.
+    //E.g: Playing cards or selecting cards.
 
-    public RectTransform deckUIBounds; // So, the player in order to play a card has to click somewhere on the screen, except inside this transform.
+
+    public DeckTableManager deckTable;
+
+    // So, the player in order to play a card has to click somewhere on the screen, except inside this transform.
+    public RectTransform deckUIBounds; 
 
     public int CardsOnDeck { get { return transform.childCount; } }
 
     CardScript selected;
 
     public CardScript Selected { get { return selected; } set { selected = value; } }
+
+
+    // Current cards on my hand. I use this for positioning cards
+    [HideInInspector]
+    public List<CardScript> currentCards = new List<CardScript>();
 
     float playCooldown = 0.3f;
     float timer;
@@ -60,6 +71,12 @@ public class DeckManager : MonoBehaviour
             selected.Animator.Play("Card_Deselected");
             selected = null;
         }
+    }
+
+    public void DiscardCard(CardScript card) 
+    {
+        card.gameObject.SetActive(false);
+        deckTable.pooledCards.Add(card.gameObject);
     }
 
 
