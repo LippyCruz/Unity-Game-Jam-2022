@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -473,8 +473,8 @@ MonoBehaviour:
   cardPrefab: {fileID: 5032541178000111027, guid: ed3ac109d0eeece48b381bdbdabdbc55, type: 3}
   deckStartPoint: {fileID: 946592270}
   cardPool: 14
-  maxDeckSize: 6
-  cardsPerRow: 6
+  cardsPerCol: 4
+  cardsPerRow: 3
 --- !u!114 &1280357473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,9 +801,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableCards:
   - {fileID: 11400000, guid: 8fa6551724ebe074d9dac096052e2301, type: 2}
-  - {fileID: 11400000, guid: 3941078a423f2124f919eef24cfadaa6, type: 2}
-  - {fileID: 11400000, guid: 53f8541f71e48cf4ca3aae2b79f2b29e, type: 2}
+  - {fileID: 11400000, guid: 6d30e979a697aba4db3911b413b14293, type: 2}
   - {fileID: 11400000, guid: 6d61378bc8fee464a954c460ecac68a5, type: 2}
+  - {fileID: 11400000, guid: e475efa77ad539648ab5e6f711d54805, type: 2}
 --- !u!1001 &2097556564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -898,6 +898,10 @@ PrefabInstance:
     - target: {fileID: 5032541178000111027, guid: ed3ac109d0eeece48b381bdbdabdbc55, type: 3}
       propertyPath: m_Name
       value: card1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5032541178000111027, guid: ed3ac109d0eeece48b381bdbdabdbc55, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed3ac109d0eeece48b381bdbdabdbc55, type: 3}

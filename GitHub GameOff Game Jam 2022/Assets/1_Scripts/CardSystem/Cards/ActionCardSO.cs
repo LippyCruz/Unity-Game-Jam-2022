@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-[CreateAssetMenu(fileName = "NewActionCard", menuName = "Cards/ActionCard")]
-public class ActionCardSO : ScriptableObject
+
+public abstract class ActionCardSO : ScriptableObject
 {
 
     public Sprite cardSprite;
@@ -11,5 +12,5 @@ public class ActionCardSO : ScriptableObject
 
     public float price = 10;
 
-
+    public abstract void Action();
 }
