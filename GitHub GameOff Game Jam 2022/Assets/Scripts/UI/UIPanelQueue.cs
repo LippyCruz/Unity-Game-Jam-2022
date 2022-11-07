@@ -6,6 +6,7 @@ namespace UIManagement
     using TimeManagement;
     using TMPro;
     using UnityEngine;
+    using UnityEngine.Assertions;
     using UnityEngine.UI;
 
     /// <summary>
@@ -104,15 +105,30 @@ namespace UIManagement
         /// <summary>
         /// On game start, setup the queue class
         /// </summary>
-        private void Awake()
+        private void Awake() 
         {
             // Sets up the singleton
             if (_instance == null) Instance = this;
             else throw new InvalidProgramException("Trying to instantiate the " +
                 "UIPanelQueue singleton, but it already exists. Is there another script in the scene?");
 
+            ValidateEditorInputs();
+
             uiPanelQueue = new Queue<UIPanel>();
             TimeManager.OnStartPreTurn.AddListener(InitiateQueue);
+        }
+
+        private void ValidateEditorInputs() 
+        {
+            Assert.IsNotNull(notificationPanel, $"{GetType().Name} missing required editor input notificationPanel");
+            Assert.IsNotNull(notificationPanelImage, $"{GetType().Name} missing required editor input notificationPanelImage");
+            Assert.IsNotNull(notificationPanelIconImage, $"{GetType().Name} missing required editor input notificationPanelIconImage");
+            Assert.IsNotNull(notificationPanelAnimator, $"{GetType().Name} missing required editor input notificationPanelAnimator");
+            Assert.IsNotNull(notificationPanelText, $"{GetType().Name} missing required editor input notificationPanelText");
+            Assert.IsNotNull(confirmationPanel, $"{GetType().Name} missing required editor input confirmationPanel");
+            Assert.IsNotNull(confirmationTitleText, $"{GetType().Name} missing required editor input confirmationTitleText");
+            Assert.IsNotNull(moneyNotificationIcon, $"{GetType().Name} missing required editor input moneyNotificationIcon");
+            Assert.IsNotNull(buildingNotificationIcon, $"{GetType().Name} missing required editor input buildingNotificationIcon");
         }
 
         /// <summary>
