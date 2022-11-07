@@ -775,9 +775,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notificationPanel: {fileID: 4245240860168683533}
   notificationPanelImage: {fileID: 4245240859739808821}
-  notificationPanelIconImage: {fileID: 0}
+  notificationPanelIconImage: {fileID: 8504812310186434408}
   notificationPanelAnimator: {fileID: 4245240860168683528}
-  notificationPanelText: {fileID: 0}
+  notificationPanelText: {fileID: 8432257201514228243}
   confirmationPanel: {fileID: 4245240858692607015}
   confirmationTitleText: {fileID: 4245240859260029575}
   moneyNotificationIcon: {fileID: 21300000, guid: 03be2f8d95e95a44782850808671a338, type: 3}
