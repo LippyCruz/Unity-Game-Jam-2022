@@ -15,7 +15,6 @@ public class DeckTableManager : MonoBehaviour, IPointerDownHandler
 
     public DeckManager manager;
     public GameObject cardPrefab;
-    public Transform deckStartPoint;
 
     float cooldown = 0.2f;
     float timer;
@@ -38,6 +37,7 @@ public class DeckTableManager : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         if (timer < cooldown) return;
+        if (manager.CardsOnDeck >= 5) return;
 
         GiveCard();
 
@@ -53,8 +53,10 @@ public class DeckTableManager : MonoBehaviour, IPointerDownHandler
             GameObject card = pooledCards.Count > 0 ? GetPooledCard() : Instantiate(cardPrefab, manager.transform);
 
             AssignCardData(card.transform);
-        }
 
+            manager.AddCardToList(card.transform.GetComponent<CardScript>());
+
+        }
     }
 
     private void AssignCardData(Transform card) 

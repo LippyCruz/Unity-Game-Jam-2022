@@ -23,6 +23,7 @@ public class CardScript : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+
         if(deckManager.Selected == this) 
         {
             deckManager.DeselectCard();
