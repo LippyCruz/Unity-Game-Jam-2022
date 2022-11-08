@@ -6,5 +6,7 @@ using UnityEngine;
 public class BuildingCardSO : ActionCardSO
 {
     public int buildingSize;
+    public override void Action(){
 
+    }
 }

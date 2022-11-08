@@ -14,6 +14,7 @@ public class MapManager : EditorWindow
     TileTypeSO forest;
 
 
+    [MenuItem("Window/Map Manager")]
     public static void ShowWindow()
     {
         GetWindow<MapManager>("Map Manager");

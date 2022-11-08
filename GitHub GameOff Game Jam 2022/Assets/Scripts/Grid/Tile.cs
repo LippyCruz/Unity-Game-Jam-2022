@@ -37,6 +37,7 @@ public class Tile : MonoBehaviour
 
     public void updateAppearance(TileTypeSO tile){
         if(tile == null) {return;}
+        prevType = type;
         type = tile;
         GetComponent<SpriteRenderer>().sprite = type.picture;
     }
