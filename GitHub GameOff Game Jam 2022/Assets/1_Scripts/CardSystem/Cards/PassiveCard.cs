@@ -7,6 +7,8 @@ public class PassiveCard : ActionCardSO
 {
     public override void Action()
     {
-        
+        // Passive card
+        // put logic here
+        // or so on...
     }
 }
