@@ -7,12 +7,15 @@ namespace ActionManagement
     /// This class is used to manage the player's actions and provides utility functions
     /// to lock/unlock, strengthen/weaken actions
     /// </summary>
+    /// <author>Gino</author>
     public class ActionManager : MonoBehaviour
     {
         // The ActionManager's singleton
         private static ActionManager _instance = null;
-        public static ActionManager Instance {
-            get {
+        public static ActionManager Instance
+        {
+            get
+            {
                 if (_instance == null)
                     throw new Exception("ActionManager singleton was called without ActionManager being set up (check that ActionManager is in the scene)");
                 return _instance;
@@ -32,10 +35,11 @@ namespace ActionManagement
         // Determines whether the player has already used one action this round or not
         private bool actionWasConsumed;
 
-        private void Awake() {
+        private void Awake()
+        {
             // Sets up the singleton
             if (_instance == null) Instance = this;
-            else throw new System.InvalidProgramException("Trying to instantiate the " +
+            else throw new InvalidProgramException("Trying to instantiate the " +
                 "ActionManager singleton, but it already exists. Is there another script in the scene?");
 
             ReplenishAllActions(); // assumes we reload the scene every time we start a game
@@ -56,7 +60,7 @@ namespace ActionManagement
         /// <summary>
         /// Sets the strengths of all actions to the maximum value (3)
         /// </summary>
-        public void ReplenishAllActions() 
+        public void ReplenishAllActions()
         {
             actionStrengths = new int[5];
             for (int i = 0; i < actionStrengths.Length; i++)
@@ -117,7 +121,7 @@ namespace ActionManagement
         /// <exception cref="System.NotImplementedException">
         /// Thrown when trying to convert an unimplemented action type
         /// </exception>
-        private int ConvertActionTypeToIndex(ActionType actionType) 
+        private int ConvertActionTypeToIndex(ActionType actionType)
         {
             return actionType switch
             {

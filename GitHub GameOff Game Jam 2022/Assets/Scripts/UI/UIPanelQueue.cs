@@ -2,9 +2,9 @@ namespace UIManagement
 {
     using BuildingManagement;
     using System.Collections.Generic;
+    using TimeManagement;
     using TMPro;
     using UnityEngine;
-    using UnityEngine.Events;
     using UnityEngine.UI;
 
     /// <summary>
@@ -12,10 +12,13 @@ namespace UIManagement
     /// panels, which will be displayed at the beginning of the turn. After all panels have
     /// been displayed, the player's actions are unlocked and can be used.
     /// </summary>
+    /// <author>Gino</author>
     public class UIPanelQueue : MonoBehaviour
     {
         [Header("Debug Flags")]
         public bool Debug_ImmediatelyShowVariousReceptions;
+
+
 
         [Header("UI Notification Panel")]
         // The base GameObject of the notification panel
