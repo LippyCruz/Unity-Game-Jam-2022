@@ -1,12 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BuildingManagement;
 
 [CreateAssetMenu(fileName = "NewBuildingCard", menuName = "Cards/SeedCard")]
 public class SeedCard : ActionCardSO
 {
+    private CardPlayManager cardPlayManager;
+    public SeedType buildingType;
     public override void Action()
     {
-        Debug.Log("Played card!");
+        cardPlayManager = FindObjectOfType<CardPlayManager>();
+        if(cardPlayManager == null){
+            Debug.LogError("CardPlayManager script missing!");
+            return;
+        }
+        cardPlayManager.AddCurCard(this);
+        // build action here
     }
 }

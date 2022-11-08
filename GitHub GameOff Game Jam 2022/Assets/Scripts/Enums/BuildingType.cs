@@ -7,6 +7,8 @@ namespace BuildingManagement
     /// <author>Gino</author>
     public enum BuildingType
     {
-        ACRE
+        ACRE,
+        ANIMALPEN,
+        FRUITGARDEN
     }
 }

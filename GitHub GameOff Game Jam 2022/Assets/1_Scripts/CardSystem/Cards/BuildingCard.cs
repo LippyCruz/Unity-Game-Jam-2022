@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BuildingManagement;
 
 [CreateAssetMenu(fileName = "NewBuildingCard", menuName = "Cards/BuildingCard")]
 public class BuildingCard : ActionCardSO
 {
     private CardPlayManager cardPlayManager;
+    public BuildingType buildingType;
     public override void Action()
     {
         cardPlayManager = FindObjectOfType<CardPlayManager>();

@@ -12,6 +12,8 @@ public class Tile : MonoBehaviour
 
     private bool isBuild = false;
     private BuildingCard currBuilding;
+    private SeedCard currSeed;
+    private bool isSeed = false;
     
     private CardPlayManager cardPlayManager;
 
@@ -79,8 +81,22 @@ public class Tile : MonoBehaviour
             isBuild = true;
         }
 
+    }
 
-
+    public void ApplyCropTile(SeedCard crop)
+    {
+        if(isBuild && !isSeed){
+            if(currBuilding.buildingType == BuildingManagement.BuildingType.ACRE || 
+            currBuilding.buildingType == BuildingManagement.BuildingType.FRUITGARDEN){
+                currSprite.sprite = crop.buildingSprite;
+                currSeed = crop;
+                isSeed = true;
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
     }
 
 }
