@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+
+
+//<summary> Generates a grid of the specified rows and columns. Creates a new one everytime the script is loaded.</summary>
 [ExecuteInEditMode]
-public class GridSet : MonoBehaviour // attach to a script and it will auto spawn in the editor
+
+public class GridSet : MonoBehaviour 
 {
      [SerializeField]
     private int width = 2;

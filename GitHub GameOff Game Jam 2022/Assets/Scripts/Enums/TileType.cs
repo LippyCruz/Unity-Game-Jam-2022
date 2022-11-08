@@ -5,9 +5,11 @@ namespace BuildingManagement
     /// </summary>
     public enum TileType
     {
-       SEA,
+       LAKE,
        MOUNTAIN,
-       WOODS,
-       PLAINS
+       FOREST,
+       PLAINS,
+       HILLS
+
     }
 }

@@ -4,14 +4,17 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 
+//<summary> Editor tool that allows for changing the tiles easily through a window </summary>
+
 [ExecuteInEditMode]
 public class MapManager : EditorWindow
 {
     [SerializeField]
     TileTypeSO plain;
     TileTypeSO mountains;
-    TileTypeSO sea;
+    TileTypeSO lake;
     TileTypeSO forest;
+    TileTypeSO hills;
 
 
     [MenuItem("Window/Map Manager")]
@@ -24,8 +27,9 @@ public class MapManager : EditorWindow
     {
         plain = (TileTypeSO)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Grid/TileTypes/Plains.asset", typeof(TileTypeSO));
         mountains = (TileTypeSO)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Grid/TileTypes/Mountains.asset", typeof(TileTypeSO));
-        sea = (TileTypeSO)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Grid/TileTypes/Sea.asset", typeof(TileTypeSO));
+        lake = (TileTypeSO)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Grid/TileTypes/Lake.asset", typeof(TileTypeSO));
         forest = (TileTypeSO)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Grid/TileTypes/Forest.asset", typeof(TileTypeSO));
+        hills = (TileTypeSO)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Grid/TileTypes/Hills.asset", typeof(TileTypeSO));
 
         GUILayout.Label("Tile Selection", EditorStyles.label);
         GUILayout.BeginVertical();
@@ -38,19 +42,18 @@ public class MapManager : EditorWindow
                 {
                     Debug.LogError("Forest tile asset null");
                 }
-                Debug.Log("clicked");
                 i.gameObject.GetComponent<Tile>().updateAppearance(forest);
             }
         }
-        if (GUILayout.Button("Sea"))
+        if (GUILayout.Button("Lake"))
         {
             foreach (GameObject i in Selection.gameObjects)
             {
-                if (sea == null)
+                if ( lake == null)
                 {
-                    Debug.LogError("Sea tile asset null");
+                    Debug.LogError("Lake tile asset null");
                 }
-                i.gameObject.GetComponent<Tile>().updateAppearance(sea);
+                i.gameObject.GetComponent<Tile>().updateAppearance(lake);
             }
         }
         if (GUILayout.Button("Mountains"))
@@ -73,6 +76,18 @@ public class MapManager : EditorWindow
                     Debug.LogError("Plain tile asset null");
                 }
                 i.gameObject.GetComponent<Tile>().updateAppearance(plain);
+            }
+        }
+
+        if (GUILayout.Button("Hills"))
+        {
+            foreach (GameObject i in Selection.gameObjects)
+            {
+                if (hills == null)
+                {
+                    Debug.LogError("Hills tile asset null");
+                }
+                i.gameObject.GetComponent<Tile>().updateAppearance(hills);
             }
         }
         GUILayout.EndVertical();

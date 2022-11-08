@@ -4,42 +4,83 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField]
-    private Sprite[] layers;
-    
-    [SerializeField]
-    public TileTypeSO type;
-    
-    private TileTypeSO prevType; // <- store tile type when the tile is changed 
 
-    public void undoTile(){
+    [SerializeField]
+    public TileTypeSO currType;
+    private TileTypeSO prevType; // <- store tile type when the tile is changed 
+    private SpriteRenderer currSprite;
+
+    private bool isBuild = false;
+    private BuildingCard currBuilding;
+    
+    private CardPlayManager cardPlayManager;
+
+
+
+    void Awake()
+    {
+        if (currType != null && currType.picture != null)
+        {
+            GetComponent<SpriteRenderer>().sprite = currType.picture;
+        }
+        else
+        {
+            Debug.LogError("Please put in a Tile Type Scriptable Object Please");
+        }
+
+        cardPlayManager = FindObjectOfType<CardPlayManager>();
+        if(cardPlayManager == null) {
+            Debug.LogError("There is no cardplay manager script, please place one in the scene");
+        }
+        currSprite = GetComponent<SpriteRenderer>();
+    }
+
+    void OnMouseDown()
+    {
+        if (currType != null)
+        {
+            cardPlayManager.AddPlayToTile(this);
+        }
+
+
+    }
+
+    public void updateAppearance(TileTypeSO tile)
+    {
+        if (tile == null) { return; }
+
+        prevType = currType;
+        currType = tile;
+        GetComponent<SpriteRenderer>().sprite = currType.picture;
+    }
+
+    public void undoTile()
+    {
         updateAppearance(prevType);
     }
 
-    
-    void Awake(){
-        if(type != null && type.picture != null){
-            GetComponent<SpriteRenderer>().sprite = type.picture;
+    public void ApplyBuildTile(BuildingCard building)
+    {
+        if(currType.type == BuildingManagement.TileType.LAKE || currType.type == BuildingManagement.TileType.FOREST 
+        || currType.type == BuildingManagement.TileType.MOUNTAIN){
+            return;
         }
-    }
 
-    void OnMouseDown(){
-        //check if there's a build card that was clicked
-        //check the amount of buildings available in card
-        //if its more than 0 , change the tile type 
-        // decrement the buildings available # 
-        // check the current tile type as well 
-        if(type!= null){
-             Debug.Log($"Tile type: {type.type}");
+        if (building == null)
+        {
+            Debug.LogError("Building being passed in is null.");
+            return;
         }
-       
-    }
 
-    public void updateAppearance(TileTypeSO tile){
-        if(tile == null) {return;}
-        prevType = type;
-        type = tile;
-        GetComponent<SpriteRenderer>().sprite = type.picture;
+        if (!isBuild)
+        {
+            currBuilding = building;
+            currSprite.sprite = building.buildingSprite;
+            isBuild = true;
+        }
+
+
+
     }
 
 }
