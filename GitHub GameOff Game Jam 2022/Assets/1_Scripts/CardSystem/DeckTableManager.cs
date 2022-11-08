@@ -26,7 +26,6 @@ public class DeckTableManager : MonoBehaviour, IPointerDownHandler
     {
 
         GiveCard(5); // When the game starts, give the player 5 cards.
-
     }
 
     public void Update()
@@ -43,6 +42,11 @@ public class DeckTableManager : MonoBehaviour, IPointerDownHandler
 
         timer = 0;
     }
+
+    /// <summary>
+    /// Gives the player an amount of cards.
+    /// </summary>
+    /// <param name="amount"> amount given </param>
 
     public void GiveCard(int amount = 1) 
     {
