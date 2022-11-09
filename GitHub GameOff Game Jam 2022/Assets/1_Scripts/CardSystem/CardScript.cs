@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class CardScript : MonoBehaviour, IPointerDownHandler
 {
+    // CROSTZARD
+
+    //Summary: Handles all things related to individual cards, each time you see a card on the screen, it will have a CardScript component.
+    // E.g : Playing card animations or updating their own data.
 
     ActionCardSO card;
     DeckManager deckManager;
@@ -19,6 +23,7 @@ public class CardScript : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+
         if(deckManager.Selected == this) 
         {
             deckManager.DeselectCard();
@@ -59,10 +64,6 @@ public class CardScript : MonoBehaviour, IPointerDownHandler
 
     }
 
-    public void DeselectCard() 
-    { 
-        
-    }
 
 
 }
