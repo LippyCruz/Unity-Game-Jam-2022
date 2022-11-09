@@ -1,21 +1,39 @@
 namespace TimeManagement
 {
     using TMPro;
-    using UnityEngine.Assertions;
+    using UnityEngine;
 
+    /// <summary>
+    /// Responsible for changing the time panel depending on the updated point in time
+    /// </summary>
+    /// <author>Ben + Gino</author>
     public class TimePanel : ComputerPhaseStep
     {
-        public TextMeshProUGUI footerText;
+        [SerializeField] private TMP_Text yearText;
+        [SerializeField] private TMP_Text currentSeasonText;
+        [SerializeField] private TMP_Text footerText;
+        [SerializeField] private Animator sliderAnimator;
 
-        private void Awake()
+        protected override object[] CheckForMissingReferences() => new object[] 
         {
-            Assert.IsNotNull(footerText);
-        }
+            yearText, currentSeasonText, footerText, sliderAnimator
+        };
 
         private void UpdateUIElementsForNewTime(PointInTime time)
         {
-            footerText.text = $"Month {time.RoundInSeason} of {time.SeasonInYear}, year {time.Year}.\n" +
-                $"{time.GetRoundsRemainingInSeason()} months until {time.GetNextSeason()}";
+            yearText.text = $"Year {time.Year}";
+            currentSeasonText.text = time.SeasonInYear.ToString();
+
+            string nextSeason = time.GetNextSeason().ToString().ToLower();
+            string nextSeasonFormatted = nextSeason[0].ToString().ToUpper() + nextSeason.Substring(1);
+            int remainingRounds = time.GetRoundsRemainingInSeason() + 1;
+            footerText.text = 
+                $"{remainingRounds} turn{(remainingRounds > 1 ? "s" : "")} until {nextSeasonFormatted}";
+
+            if (!time.IsStartingPointInTime())
+            {
+                sliderAnimator.SetTrigger("Next");
+            }
         }
 
         public override void DoProcessingForComputerPhaseDuringGameInit()
