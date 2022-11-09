@@ -69,6 +69,7 @@ public class DeckManager : MonoBehaviour
             }
             else DeselectCard();
 
+
         }
     }
 
@@ -101,11 +102,6 @@ public class DeckManager : MonoBehaviour
         OnCardLeave.Invoke();
     }
 
-    public void AddCardToList(CardScript card) 
-    {
-        currentCards.Add(card);
-        CardPositioning();
-    }
 
     private void CardPositioning() 
     { 
@@ -125,6 +121,14 @@ public class DeckManager : MonoBehaviour
         }
         
     }
+
+
+    public void AddCardToList(CardScript card) 
+    {
+        currentCards.Add(card);
+        CardPositioning();
+    }
+
 
     private void EventSubscription() 
     {
