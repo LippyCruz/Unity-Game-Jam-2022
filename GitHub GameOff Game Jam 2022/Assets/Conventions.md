@@ -1,8 +1,7 @@
 **Conventions & Style Guides**
 
 1. Preface
-    This style guide is designed to keep the code written by different developers
-    as similar as possible and avoid confusion. Version: 2
+    This style guide is designed to keep the code written by different developers as similar as possible and avoid confusion. Version: 3
 2. Classes
     1. Signatures
         - Every class should be prefaced with a /// `<author>` comment, which contains your name.
@@ -11,9 +10,19 @@
     2. Class Comment
         - Every class should be prefaced with a /// `<summary>` comment, which outlines what
         the class is doing / responsible for / etc, if it makes sense to have it there.
+        Examples:
+        ```csharp
+        /// <summary>
+        /// Does ...
+        /// </summary>
+        /// <author>Gino</author>
+        public class Something { }
+        ```
     3. Class Naming Conventions
         - {...}-Panel: Scripts that, in any form, display, create or manipulate UI components
         - {...}-Manager: Scripts that manage an abstract game concept (like Actions, Time, etc.)
+        - {...}-Button: Scripts that are attached to UI buttons
+        - No script should end with {...}-Script
 3. Public Enums
     - Public enums should be placed in a separate file in the Scripts/Enums folder and CAN
     be located in a certain namespace. After every constant, there should be a newline (list style)
